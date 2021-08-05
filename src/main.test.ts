@@ -45,11 +45,6 @@ describe('3rd requirement', () => {
   it('Should handle a custom delimiter that is same as default', () => {
     expect(strcal.add("//,\n1,3,4")).toBe(8);
   })
-
-  it('Should handle multiple delimiters', () => {
-    expect(strcal.add("//;,@,%,$\n1;3@4$5%6")).toBe(19);
-  })
-
 })
 
 describe('4th requirement', () => {
@@ -59,12 +54,20 @@ describe('4th requirement', () => {
 })
 
 describe('Bonus requirements', () => {
-  it('Should handle a custom delimiter', () => {
+  it('Should ignore values over 1000', () => {
     expect(strcal.add("//;\n1;1000;4")).toBe(5);
   })
 
-  it('Should handle multiple delimiters', () => {
+  it('Should handle delimiters of arbitrary length', () => {
     expect(strcal.add("//***\n1***2***3")).toBe(6);
+  })
+
+  it('Should handle multiple delimiters', () => {
+    expect(strcal.add("//;,@,%,$\n1;3@4$5%6")).toBe(19);
+  })
+
+  it('Should handle multiple delimiters of arbitrary length', () => {
+    expect(strcal.add("//;,@@@@,%%%,$$\n1;3@@@@4$$5%%%6")).toBe(19);
   })
 })
 
