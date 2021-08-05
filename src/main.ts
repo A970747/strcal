@@ -7,7 +7,7 @@ export default class StringCalc {
  * Public method used to convert a string to a single return number.
  * @public
  * 
- * @param {string} String by user to be converted to an integer.
+ * @param {string} numberString - String arg to be converted to an integer.
  * @return {number | error} String converted to a single number, or method throws an error.
  */
   public add(numberString: string): number | Error {
@@ -25,14 +25,14 @@ export default class StringCalc {
   }
 
   /**
-  * Public method used to convert a string to a single return number.
+  * Public method to check if the cache has a value for a certain string input.
   * @public
   * 
-  * @param {string} String by user to be converted to an integer.
-  * @return {boolean} Returns a boolean based on if map contains string.
+  * @param {string} argString - String used as key value to check cache.
+  * @return {boolean} Returns a boolean if map contains string.
   */
-  public hasCachedValue(string:string): boolean {
-    return StringCalc.cache.has(string);
+  public hasCachedValue(argString: string): boolean {
+    return StringCalc.cache.has(argString);
   }
 
   /**
@@ -41,16 +41,16 @@ export default class StringCalc {
   * @private
   * @function
   * 
-  * @param {string} Accepts a string argument to test again.
+  * @param {string} argString - A string argument to test again.
   * 
   * @return {Array<string>} Returns an array of strings that represent all the delimiters.
   */
-  private getDelimiters(string: string): string[] {
+  private getDelimiters(argString: string): string[] {
     //Regex expression that identifies delimiters between // and \n.
     const regex = new RegExp('\/\/(.*)\\n', 'g')
     //Base case, this returns if no other conditions are met at the end of the function.
     let delimiters: string[] = [","];
-    let matches = regex.exec(string)
+    let matches = regex.exec(argString)
 
     /**
     * If RegEx is matched, check if there are 1 or more delimiters within the substring.
@@ -71,8 +71,8 @@ export default class StringCalc {
   * @private
   * @function
   * 
-  * @param {string} Takes a substring of the userinput string returned by trimDelimiters.
-  * @param {Array<string>} Array of delimiters used to remove all delimiters from the substring.
+  * @param {string} numberString - A substring of the userinput string returned by trimDelimiters.
+  * @param {Array<string>} delimiters - Array of delimiters used to remove all delimiters from the substring.
   * 
   * @return {Array<number>} Returns a substring of the main string, with the delimiters removed, converted to integers.
   */
@@ -95,14 +95,14 @@ export default class StringCalc {
   * @private
   * @function
   * 
-  * @param {string} Passed string originally passed to the add method by user.
+  * @param {string} argString - String originally passed to the add method by user.
   * 
   * @return {string} Returns a substring of the main string, with the delimiters removed.
   */
-  private trimDelimiters(string: string): string {
+  private trimDelimiters(argString: string): string {
     //Regex for getting any delimiters between // & \n.
     const regex = new RegExp('\/\/(.*)\\n', 'g')
-    let stringNoDelimiters = string.replace(regex,"")
+    let stringNoDelimiters = argString.replace(regex,"")
 
     return stringNoDelimiters;
   }
@@ -114,8 +114,8 @@ export default class StringCalc {
   * @private
   * @function
   * 
-  * @param {Array<number>} Array of numbers to be reduced to a single value
-  * @param {string} Original string input by user used as a key to cache the results.
+  * @param {Array<number>} numbers - Array of numbers to be reduced to a single value
+  * @param {string} originalString - string used as a key to cache the results.
   * 
   * @return {Error} Throws error if it finds a negative value.
   * @return {number} Returns a single numerical value.
@@ -134,7 +134,8 @@ export default class StringCalc {
       if(val < 0) negativeCount++;
       return total + val
     });
-    //Caches value based with key as user input string.
+    
+    //Caches value with string arg as key.
     StringCalc.cache.set(originalString, sumOfNumbers);
 
     //Throws error if negativeCount has incremented in the reducer function.
