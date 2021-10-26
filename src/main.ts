@@ -16,7 +16,7 @@ export default class StringCalc {
     * If the string is empty, or the passed string exists as a key in the cache then return 0, or the value, respectively.
     */
     if(numberString === "") return 0;
-    if(StringCalc.cache.has(numberString)) return StringCalc.cache.get(numberString);
+    if(hasCachedValue(numberString)) return StringCalc.cache.get(numberString);
 
     const delimiters: string[] = this.getDelimiters(numberString)
     const numberArray: number[] = this.stringToNumArray(this.trimDelimiters(numberString), delimiters);
